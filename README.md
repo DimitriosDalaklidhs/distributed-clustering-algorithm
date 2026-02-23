@@ -1,57 +1,60 @@
-Student Information
-Name: Dimitrios Dalaklidis
+# Distributed Clustering Algorithm (DCA)
 
-**Project Description**
+An implementation of the Distributed Clustering Algorithm for connected undirected graphs, where each node has a unique ID and weight.
 
-This program implements the Distributed Clustering Algorithm (DCA) for a connected undirected graph.
-Each node has a unique ID and a unique weight.
+---
 
-The algorithm runs in rounds.
-A node can only decide after all of its higher-weight neighbors have decided.
+## How the Algorithm Works
 
-A node becomes either:
-Cluster Head (CH)
-or
-Cluster Member by joining a neighboring CH.
+The algorithm runs in rounds. A node can only decide once all of its higher-weight neighbors have decided, at which point it becomes either:
 
-During execution, the program displays:
-“wait”, CH(ID), JOIN(ID1, ID2)
+- **Cluster Head (CH)** — if it has the highest weight among its undecided neighbors
+- **Cluster Member** — by joining a neighboring CH
 
-After the algorithm completes, the program prints the final cluster configuration.
-The program also creates a Graphviz DOT file named graph.dot for visualization.
+During execution the program outputs one of three messages per node per round:
+- `wait` — node is still waiting on higher-weight neighbors
+- `CH(ID)` — node has become a cluster head
+- `JOIN(ID1, ID2)` — node has joined a cluster
 
-**Compilation Instructions**
+---
 
-Using **GCC**:
+## Compilation
 
+**Linux / macOS:**
+```bash
 gcc DCA.c -o DCA
-
-
-On **Windows**:
-
-gcc DCA.c -o DCA.exe
-
-**Execution Instructions**
-
-**Linux:**
-
-./DCA
-
+```
 
 **Windows:**
+```bash
+gcc DCA.c -o DCA.exe
+```
 
+---
+
+## Usage
+
+**Linux / macOS:**
+```bash
+./DCA
+```
+
+**Windows:**
+```bash
 DCA.exe
+```
 
-**Input Format**
+---
 
-The program expects the following input from the user:
+## Input Format
+```
+N M
+ID weight       (repeated N times)
+ID1 ID2         (repeated M times)
+```
 
-First line: N M (number of nodes, number of edges)
-Next N lines: ID weight
-Next M lines: ID1 ID2 (edges)
-
-**Example input:**
-
+**Example:**
+```
 6 8
 A 10
 B 15
@@ -67,25 +70,26 @@ C E
 C F
 D E
 E F
+```
 
-**Output Description**
+---
 
-The program prints the decision of each node per round.
-It prints “wait” when a node cannot decide yet.
-It prints CH(ID) when a node becomes a cluster head.
-It prints JOIN(ID1, ID2) when a node joins a cluster.
+## Output
 
-After all nodes decide, the program prints the final clusters.
-The program also generates the file graph.dot.
+The program prints each node's decision per round as the algorithm progresses, then prints the final cluster configuration once all nodes have decided.
 
-**Graph Visualization (Graphviz)**
+It also generates a `graph.dot` file for visualization.
 
-To generate a PNG image:
+---
 
+## Graph Visualization
+
+Requires [Graphviz](https://graphviz.org/). To generate a PNG:
+```bash
 dot -Tpng graph.dot -o graph.png
+```
 
-
-The produced image shows:
-Cluster Heads as double circles
-Cluster Members as single circles
-Each cluster in a different color
+The output image shows:
+- **Cluster Heads** as double circles
+- **Cluster Members** as single circles
+- Each cluster in a distinct color
